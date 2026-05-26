@@ -1,0 +1,17 @@
+! Configuration du Core Switch (VLANs & Trunking)
+vlan 10
+ name LAN_DEVS
+vlan 20
+ name ZONE_CICD
+vlan 30
+ name ZONE_STAGING
+vlan 40
+ name ZONE_PRODUCTION
+vlan 50
+ name DMZ
+!
+interface GigabitEthernet0/1
+ description Interconnexion Pare-feu / Routeur
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,40,50

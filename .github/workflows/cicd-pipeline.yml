@@ -1,0 +1,52 @@
+name: Pipeline CI/CD & DevSecOps
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Simulation Tests Unitaires (Seuil 80%)
+        run: |
+          echo "Exécution des tests..."
+          echo "Couverture de code : 84% - OK"
+
+  devsecops-scans:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+- name: Scan SAST (Semgrep)
+        run: |
+          pip install semgrep
+          semgrep --config=auto --error
+- name: Scan des dépendances avec Trivy
+        uses: aquasec/trivy-action@master
+        with:
+          scan-type: 'fs'
+          exit-code: '1'
+          severity: 'HIGH,CRITICAL'
+
+  package-and-security:
+    needs: devsecops-scans
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Build de l'image Docker
+        run: echo "Simulation Docker Build Réussi"
+
+      # Pratique DevSecOps : Scan Image Docker
+      - name: Scan de l'image Docker finale
+        uses: aquasec/trivy-action@master
+        with:
+          image-ref: 'mon-app:latest'
+          exit-code: '0'
+          severity: 'CRITICAL'

@@ -1,0 +1,10 @@
+$TTL 86400
+@   IN  SOA dns.infrastructure.internal. admin.infrastructure.internal. (
+        2026052601 ; Serial
+        3600 1800 604800 86400 )
+@               IN  NS  dns.infrastructure.internal.
+
+dns             IN  A   192.168.20.2
+github-runner   IN  A   192.168.20.5
+staging.internal IN  A   192.168.30.10
+prod.internal    IN  A   192.168.40.10

@@ -2,7 +2,7 @@ name: Pipeline CI/CD & DevSecOps
 
 on:
   push:
-    branches: [ main ]
+    branches: [ principal ]
 
 jobs:
   build-and-test:
